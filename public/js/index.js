@@ -11,9 +11,9 @@ document.addEventListener("DOMContentLoaded", async () => {
             const skaters = data.skaters;
 
             skaters.forEach((skater, key) => {
-                console.log(skater);
                 let status = skater.estado == 0 ? "En Revisión" : "Aprobado";
-
+                const classname =
+                    skater.estado == 0 ? "text-danger" : "text-success";
                 string += `<tr>
                     <th scope="row">${key + 1}</th>
                     <td><div style="background-image: url(avatars/${
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <td>${skater.nombre}</td>
                     <td>${skater.anos_experiencia}</td>
                     <td>${skater.especialidad}</td>
-                    <td class="text-success font-weight-bold">
+                    <td class="${classname} font-weight-bold">
                     ${status}
                     </td>
                 </tr>

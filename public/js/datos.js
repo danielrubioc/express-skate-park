@@ -52,9 +52,38 @@ document.addEventListener("DOMContentLoaded", async () => {
 
                 return (divErrors.innerHTML = string);
             }
-            window.location.href = "/datos";
+            window.location.href = "/";
         } catch (error) {
             console.log(error);
         }
     });
+
+    const btnDelete = document.getElementById("delete");
+    btnDelete.addEventListener("click", async (e) => {
+        try {
+            const divErrors = document.getElementById("errors");
+            divErrors.innerHTML = "";
+            const res = await fetch("/api/v1/skater/delete", {
+                method: "post",
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            });
+            const data = await res.json();
+            if (!data.ok) {
+                const errorMessage = data.msg.split(",");
+                let string = "";
+                errorMessage.forEach((error) => {
+                    string += `<p>${error}</p>`;
+                });
+
+                return (divErrors.innerHTML = string);
+            }
+            window.location.href = "/";
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
+    /*   */
 });

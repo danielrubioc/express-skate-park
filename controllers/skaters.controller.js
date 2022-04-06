@@ -1,5 +1,6 @@
 const bcrypt = require("bcryptjs");
 /* const { nanoid } = require("nanoid"); */
+const fs = require("fs");
 const jwt = require("jsonwebtoken");
 const {
     getSkatersDB,
@@ -8,6 +9,7 @@ const {
     getSkaterByEmailDB,
     updateSkaterDB,
     updateSkaterStatusDB,
+    deleteSkaterDB,
 } = require("../database/db");
 const path = require("path");
 
@@ -188,6 +190,38 @@ const loginSkater = async (req, res) => {
     }
 };
 
+const deleteSkater = async (req, res) => {
+    try {
+        const respuesta = await deleteSkaterDB({
+            id: req.id,
+        });
+
+        if (!respuesta.ok) {
+            throw new Error(respuesta.msg);
+        }
+        const { skater } = respuesta;
+        fs.unlink(
+            path.join(__dirname, "../public/avatars/", skater.foto),
+            (err) => {
+                if (err) {
+                    return res.send("fallo eliminar archivo");
+                }
+            }
+        );
+
+        return res.json({
+            ok: true,
+            skater,
+        });
+    } catch (error) {
+        // console.log(error);
+        return res.status(400).json({
+            ok: false,
+            msg: error.message,
+        });
+    }
+};
+
 module.exports = {
     getSkaters,
     getSkater,
@@ -195,4 +229,5 @@ module.exports = {
     loginSkater,
     updateSkater,
     updateSkaterStatus,
+    deleteSkater,
 };

@@ -177,6 +177,30 @@ const updateSkaterStatusDB = async (data) => {
     }
 };
 
+const deleteSkaterDB = async (data) => {
+    const client = await pool.connect();
+    try {
+        const { id } = data;
+        const query = {
+            text: "DELETE FROM skaters WHERE id=$1 RETURNING*;",
+            values: [id],
+        };
+        const respuesta = await client.query(query);
+        return {
+            ok: true,
+            skater: respuesta.rows[0],
+        };
+    } catch (error) {
+        //console.log(error);
+        return {
+            ok: false,
+            msg: error.message,
+        };
+    } finally {
+        client.release();
+    }
+};
+
 module.exports = {
     getSkatersDB,
     getSkaterDB,
@@ -184,4 +208,5 @@ module.exports = {
     getSkaterByEmailDB,
     updateSkaterDB,
     updateSkaterStatusDB,
+    deleteSkaterDB,
 };

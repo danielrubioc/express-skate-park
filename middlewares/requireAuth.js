@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const requireAuth = (req, res, next) => {
     try {
-        console.log(req.headers);
+        //console.log(req.headers);
         if (!req.headers?.authorization) {
             throw new Error("No existe el token");
         }
@@ -15,7 +15,7 @@ const requireAuth = (req, res, next) => {
         const payload = jwt.verify(token, process.env.JWT_SECRET);
 
         req.id = payload.id;
-        console.log(req.id);
+        //console.log(req.id);
         next();
     } catch (error) {
         if (error.message === "jwt malformed") {

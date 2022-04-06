@@ -10,8 +10,9 @@ document.addEventListener("DOMContentLoaded", async () => {
         if (!data.ok) {
             const skaters = data.skaters;
             skaters.forEach((skater, key) => {
-                console.log(skater);
                 let status = skater.estado == 0 ? "En Revisión" : "Aprobado";
+                const classname =
+                    skater.estado == 0 ? "text-danger" : "text-success";
                 let texto = skater.estado == 0 ? "" : "checked";
                 string += `<tr>
                     <th scope="row">${key + 1}</th>
@@ -21,7 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                     <td>${skater.nombre}</td>
                     <td>${skater.anos_experiencia}</td>
                     <td>${skater.especialidad}</td>
-                    <td class="text-success font-weight-bold">
+                    <td class="${classname} font-weight-bold">
                         ${status} 
                         <input class="status" value="true" type="checkbox" ${texto} data-id="${
                     skater.id

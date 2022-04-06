@@ -7,6 +7,7 @@ const {
     loginSkater,
     updateSkater,
     updateSkaterStatus,
+    deleteSkater,
 } = require("../controllers/skaters.controller");
 const {
     requireDatos,
@@ -32,8 +33,8 @@ router.post(
     [requireAuth, validateUpdate, requireUpdate],
     updateSkater
 );
-router.post("/skater/edit-status", requireAuth, updateSkaterStatus);
-
+router.post("/skater/edit-status", updateSkaterStatus);
+router.post("/skater/delete", requireAuth, deleteSkater);
 router.post("/login", loginSkater);
 
 module.exports = router;
